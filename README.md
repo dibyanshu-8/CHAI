@@ -25,7 +25,7 @@ The engine connects a local weather event in Bangladesh with a separate labor di
 
 -   **Supplier Risk Dashboard:** Select a key supplier from a list to perform a real-time risk analysis.
 -   **Dynamic Event Analysis:** The system identifies the most relevant global events for a given supplier's location and operational context.
--   **LLM-Powered Risk Assessment:** Uses Google's Gemini Pro to generate a clear, qualitative risk analysis with a defined level (Low, Medium, High, Critical).
+-   **LLM-Powered Risk Assessment:** Uses TinyLlama-1.1B to generate a clear, qualitative risk analysis with a defined level (Low, Medium, High, Critical).
 -   **Actionable Recommendations:** The AI provides a concrete, recommended next step for the logistics team to mitigate the identified risk.
 
 ### Technical Architecture & Tech Stack
@@ -39,14 +39,14 @@ This project is built as a proof-of-concept using a **Retrieval-Augmented Genera
     -   When a supplier is selected, its `location_tags` are used to perform a semantic search against the FAISS index to retrieve the most contextually relevant events.
 3.  **Generative Reasoning:**
     -   The retrieved events and the supplier profile are dynamically compiled into a detailed prompt.
-    -   This prompt is sent to the **Google Gemini Pro** LLM, which is tasked with performing the causal reasoning, risk assessment, and generating the final analysis in a structured JSON format.
+    -   This prompt is sent to the **TinyLlama-1.1B** LLM, which is tasked with performing the causal reasoning, risk assessment, and generating the final analysis in a structured JSON format.
 4.  **Frontend:**
     -   The entire application is built and served using **Streamlit**, a Python framework for building interactive data science web apps.
 
 **Tech Stack:**
 -   **Language:** Python
 -   **Web Framework:** Streamlit
--   **LLM:** Google Gemini Pro
+-   **LLM:** TinyLlama-1.1B
 -   **Vector Embeddings:** `sentence-transformers`
 -   **Vector Search:** `faiss-cpu` (Facebook AI Similarity Search)
 -   **Core Libraries:** `pandas`, `numpy`
