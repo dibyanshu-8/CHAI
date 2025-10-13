@@ -77,9 +77,9 @@ This project is built as a proof-of-concept using a **Retrieval-Augmented Genera
 
 4.  **Set Up API Key:**
     -   Create a file at `.streamlit/secrets.toml`.
-    -   Add your Google Gemini API key to the file:
+    -   Add your Hugging Face API key to the file:
         ```toml
-        GOOGLE_API_KEY = "YOUR_API_KEY_HERE"
+        HF_API_KEY = "YOUR_API_KEY_HERE"
 
 
         ```
