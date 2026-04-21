@@ -4,3 +4,12 @@ streamlit
 pandas
 sentence-transformers
 faiss-cpu
+langgraph
+langchain
+langchain-google-genai
+pandas
+python-dotenv
+sentence-transformers==2.2.2
+transformers==4.36.2
+huggingface-hub==0.19.4
+torch
