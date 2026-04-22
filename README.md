@@ -1,110 +1,133 @@
-# Cognitive Hazard AI (CHAI)
-
-## Project Overview
-Cognitive Hazard AI (CHAI) is a supply chain risk intelligence system designed for large-scale retail operations.
-It tracks, analyzes, and predicts disruptions by synthesizing unstructured global data into actionable insights.
+# Cognitive Hazard AI (CHAI) 
 
 
 ---
 
-## Problem Statement
-Supply chains are extremely time‑sensitive.
-- A 48‑hour delay in key global hubs (e.g., Shanghai, Singapore, Mumbai) can cause:
-- Inventory disruption
-- Margin erosion
-Traditional systems are reactive, updating only after delays occur.
+##  Executive Summary
+Cognitive Hazard AI (CHAI)  is an autonomous multi-agent system designed to detect, analyze, and predict global supply chain disruptions in real time.
 
-
- CHAI solves this by enabling **proactive risk intelligence**.
+Unlike traditional systems that rely on manual queries and historical data, CHAI  operates as a **24/7 intelligent agent**, leveraging real-time web signals and causal reasoning to generate actionable risk alerts.
 
 ---
 
-##  Phase 1: CHAI 1.0 (RAG-Based System) 
+##  Problem Statement
 
-### Concept
-A Retrieval-Augmented Generation (RAG) dashboard where users:
-- Query suppliers manually
-- System retrieves relevant global events
-- LLM summarizes risks
+Modern fashion supply chains face:
+- High dependency on global manufacturing hubs
+- Sensitivity to geopolitical, weather, and labor disruptions
+- Lack of proactive intelligence in traditional tools
 
-### Limitations
--  Passive system (requires manual queries)
--  Single-pass reasoning (misses causal chains)
--  Poor scalability for thousands of suppliers
-
----
-
-## Phase 2: CHAI 2.0 (Agentic AI System)
-
-### Key Shift
-From **passive querying → autonomous monitoring system**
-
-CHAI 2.0 operates as a **multi-agent system** running continuously.
+ Existing systems are:
+- Reactive  
+- Query-dependent  
+- Limited to surface-level insights  
 
 ---
 
-##  Architecture Overview
+##  Evolution of the System
 
-### Multi-Agent Design
-- **Researcher Agent**
-  - Filters geographically relevant news signals
-- **Analyst Agent**
-  - Performs causal reasoning (powered by LLM)
-- **Alerter Agent**
-  - Generates actionable risk reports
+### Phase 1: CHAI 1.0 (Passive RAG System)
 
----
+- Chatbot-style interface over vector database
+- Manual query required for risk analysis
 
-### ⚙️ Core Capabilities
--  Continuous monitoring (24/7)
--  Multi-step reasoning workflow
--  Second-order impact analysis
--  Autonomous execution (no manual trigger)
+#### Limitations
+-  Requires human trigger
+-  Passivity bias (missed risks)
+-  Linear summaries (no causal reasoning)
 
 ---
 
-##  Technical Stack
+###  Phase 2: CHAI 2.0 (Agentic AI System)
 
-| Component            | Technology Used                          |
-|---------------------|------------------------------------------|
-| Orchestration       | LangGraph                                |
-| LLM Inference       | Groq Cloud (Llama 3.3 70B)               |
-| Vector Search       | FAISS                                    |
-| Embeddings          | Sentence-Transformers                    |
-| Framework           | LangChain (Groq integration)             |
-| Backend             | Python (Modular Architecture)            |
-| Data Processing     | Pandas, PyTorch                          |
+Transition to a **fully autonomous agent architecture**
+
+#### Key Improvements
+-  Autonomous execution (scheduled runs)
+-  Real-time intelligence via web search
+-  Deep causal reasoning (second-order effects)
+-  Stateful memory for context retention
 
 ---
 
-##  System Workflow (DAG Pipeline)
+##  System Architecture
+
+### Multi-Agent DAG (LangGraph)
+
+1. **Researcher Agent**
+   - Uses Tavily Search API
+   - Filters relevant global signals (geo + domain-specific)
+
+2. **Analyst Agent**
+   - Powered by Groq (Llama 3.3 70B)
+   - Performs causal reasoning
+   - Evaluates impact on:
+     - Production
+     - Labor
+     - Logistics
+
+3. **Alerter Agent**
+   - Generates structured reports
+   - Assigns severity levels:
+     - High / Medium / Low
+   - Suggests mitigation strategies
+
+---
+
+##  Core Technology Stack
+
+| Layer                | Technology Used                     |
+|---------------------|------------------------------------|
+| Orchestration       | LangGraph                          |
+| LLM Inference       | Groq Cloud (Llama 3.3 70B)         |
+| Real-time Data      | Tavily Search API                  |
+| Backend             | Python 3.12                        |
+| Containerization    | Docker                             |
+| Deployment Target   | AWS Lambda (Serverless)            |
+
+---
+
+##  Workflow Pipeline (DAG Execution)
 
 1. **State Initialization**
-   - Load supplier context and memory
+   - Load supplier context + memory
 
-2. **Researcher Node**
-   - Semantic filtering of global intelligence feeds
+2. **Research Phase**
+   - Fetch real-time global signals
 
-3. **Analyst Node**
-   - JSON-structured reasoning
-   - Determines impact & severity
+3. **Analysis Phase**
+   - Perform structured reasoning
+   - Generate severity scores
 
-4. **Alerter Node**
-   - Generates standardized risk reports
-   - Provides recommendations
+4. **Alert Generation**
+   - Output standardized reports
 
 ---
 
-##  Business Impact
+##  Key LLMOps Features
 
--  **Proactive Detection**
-  - Identifies risks **3–4 days early**
+###  Semantic Memory & Deduplication
+- Hash-based memory system
+- Prevents duplicate alerts
+- Stores previous event signatures (JSON / scalable to DynamoDB)
 
--  **Scalability**
-  - Handles global supplier monitoring automatically
+---
 
--  **Decision Intelligence**
-  - Severity-based alerts: High / Medium / Low
+### Containerization
+- Fully Dockerized environment
+- Ensures reproducibility across systems
+- Eliminates dependency conflicts
+
+---
+
+### Cloud-Ready Design
+- AWS Lambda-compatible handler
+- Event-driven execution via Amazon EventBridge
+- Scalable and cost-efficient architecture
+
+---
+
+
 
 ---
 
