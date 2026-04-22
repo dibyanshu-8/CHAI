@@ -1,27 +1,25 @@
 # Cognitive Hazard AI (CHAI)
-### Evolution from RAG to Autonomous Agentic Systems
 
-## 📌 Project Overview
-Cognitive Hazard AI (CHAI) is a supply chain risk intelligence system designed for large-scale fashion retail operations (modeled for Myntra's global sourcing network).
-
+## Project Overview
+Cognitive Hazard AI (CHAI) is a supply chain risk intelligence system designed for large-scale retail operations.
 It tracks, analyzes, and predicts disruptions by synthesizing unstructured global data into actionable insights.
 
----
-
-## 🚨 Problem Statement
-Fashion supply chains are extremely time-sensitive.
-
-- A **48-hour delay** in key textile hubs (e.g., Dhaka, Ho Chi Minh City) can cause:
-  - Seasonal inventory loss
-  - Margin erosion
-
-Traditional systems are **reactive**, updating only after delays occur.
-
-👉 CHAI solves this by enabling **proactive risk intelligence**.
 
 ---
 
-## 🔹 Phase 1: CHAI 1.0 (RAG-Based System)
+## Problem Statement
+Supply chains are extremely time‑sensitive.
+- A 48‑hour delay in key global hubs (e.g., Shanghai, Singapore, Mumbai) can cause:
+- Inventory disruption
+- Margin erosion
+Traditional systems are reactive, updating only after delays occur.
+
+
+ CHAI solves this by enabling **proactive risk intelligence**.
+
+---
+
+##  Phase 1: CHAI 1.0 (RAG-Based System) 
 
 ### Concept
 A Retrieval-Augmented Generation (RAG) dashboard where users:
@@ -30,13 +28,13 @@ A Retrieval-Augmented Generation (RAG) dashboard where users:
 - LLM summarizes risks
 
 ### Limitations
-- ❌ Passive system (requires manual queries)
-- ❌ Single-pass reasoning (misses causal chains)
-- ❌ Poor scalability for thousands of suppliers
+-  Passive system (requires manual queries)
+-  Single-pass reasoning (misses causal chains)
+-  Poor scalability for thousands of suppliers
 
 ---
 
-## 🔹 Phase 2: CHAI 2.0 (Agentic AI System)
+## Phase 2: CHAI 2.0 (Agentic AI System)
 
 ### Key Shift
 From **passive querying → autonomous monitoring system**
@@ -45,7 +43,7 @@ CHAI 2.0 operates as a **multi-agent system** running continuously.
 
 ---
 
-## 🧠 Architecture Overview
+##  Architecture Overview
 
 ### Multi-Agent Design
 - **Researcher Agent**
@@ -58,14 +56,14 @@ CHAI 2.0 operates as a **multi-agent system** running continuously.
 ---
 
 ### ⚙️ Core Capabilities
-- ✅ Continuous monitoring (24/7)
-- ✅ Multi-step reasoning workflow
-- ✅ Second-order impact analysis
-- ✅ Autonomous execution (no manual trigger)
+-  Continuous monitoring (24/7)
+-  Multi-step reasoning workflow
+-  Second-order impact analysis
+-  Autonomous execution (no manual trigger)
 
 ---
 
-## 🔬 Technical Stack
+##  Technical Stack
 
 | Component            | Technology Used                          |
 |---------------------|------------------------------------------|
@@ -79,7 +77,7 @@ CHAI 2.0 operates as a **multi-agent system** running continuously.
 
 ---
 
-## 🔁 System Workflow (DAG Pipeline)
+##  System Workflow (DAG Pipeline)
 
 1. **State Initialization**
    - Load supplier context and memory
@@ -97,15 +95,15 @@ CHAI 2.0 operates as a **multi-agent system** running continuously.
 
 ---
 
-## 📊 Business Impact
+##  Business Impact
 
-- 🚀 **Proactive Detection**
+-  **Proactive Detection**
   - Identifies risks **3–4 days early**
 
-- 🌍 **Scalability**
+-  **Scalability**
   - Handles global supplier monitoring automatically
 
-- 📉 **Decision Intelligence**
+-  **Decision Intelligence**
   - Severity-based alerts: High / Medium / Low
 
 ---
