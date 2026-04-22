@@ -1,16 +1,10 @@
---extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
-llama-cpp-python
-streamlit
-pandas
-sentence-transformers
-faiss-cpu
 langgraph
 langchain
 langchain-groq
+langchain-tavily
 pandas
 python-dotenv
 sentence-transformers==2.2.2
 transformers==4.36.2
 huggingface-hub==0.19.4
 torch
-groq
