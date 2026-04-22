@@ -1,22 +1,25 @@
-#for fetching & filtering news
-import pandas as pd
+import os
+from langchain_community.tools.tavily_search import TavilySearchResults 
 
-from state import AgentState
-
-def researcher_node(state:AgentState):
+def researcher_node(state):
     supplier = state["supplier_info"]
+    query = f"latest supply chain news weather labor strike logistics in {supplier['city']} {supplier['country']}"
     
-    simulated_news = [
-        "Cyclone alert in Bay of Bengal affecting Dhaka ports",
-        "New labor strike announced in Ho Chi Minh City garment district",
-        "Guangzhou customs implementing new 48-hour inspection delay",
-        "Surat highway expansion completed",
-        "Global container prices rise by 15%"
-    ]
+    # Initialize Tavily Search (Professional Search tool for Agents)
+    # Iske liye 'pip install langchain-community' karna hoga
+    search = TavilySearchResults(k=3) # Top 3 news results
     
-    relevant = [news for news in simulated_news if any(tag.lower() in news.lower() for tag in supplier['location_tags'].split())]
+    print(f"DEBUG: Searching real-time data for {supplier['supplier_name']}...")
     
+    try:
+        search_results = search.run(query)
+        # News content ko extract karna
+        real_news = [res['content'] for res in search_results]
+    except Exception as e:
+        print(f"Search failed, using fallback. Error: {e}")
+        real_news = [f"General monitoring active for {supplier['city']} region."]
+
     return {
-        "raw_news": relevant,
-        "logs": [f"Researcher found {len(relevant)} relevant news items for {supplier['supplier_name']}."]
+        "raw_news": real_news,
+        "logs": [f"Researcher: Fetched {len(real_news)} live intelligence signals from web."]
     }

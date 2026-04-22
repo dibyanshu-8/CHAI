@@ -1,0 +1,7 @@
+.env
+pycache/
+*.pyc
+venv/
+.streamlit/
+outbox/
+data/suppliers.csv
