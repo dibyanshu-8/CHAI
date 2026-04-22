@@ -12,7 +12,7 @@ Unlike traditional systems that rely on manual queries and historical data, CHAI
 
 ##  Problem Statement
 
-Modern fashion supply chains face:
+Modern supply chains face:
 - High dependency on global manufacturing hubs
 - Sensitivity to geopolitical, weather, and labor disruptions
 - Lack of proactive intelligence in traditional tools
