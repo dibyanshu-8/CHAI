@@ -3,7 +3,7 @@
 
 ---
 
-##  Executive Summary
+## Summary
 Cognitive Hazard AI (CHAI)  is an autonomous multi-agent system designed to detect, analyze, and predict global supply chain disruptions in real time.
 
 Unlike traditional systems that rely on manual queries and historical data, CHAI  operates as a **24/7 intelligent agent**, leveraging real-time web signals and causal reasoning to generate actionable risk alerts.
@@ -129,5 +129,5 @@ Transition to a **fully autonomous agent architecture**
 
 
 
----
+
 
