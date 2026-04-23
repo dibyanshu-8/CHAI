@@ -1,20 +1,20 @@
 from utils.memory import is_duplicate_alert, save_to_memory
-from langchain_groq import ChatGroq  # type: ignore
+from langchain_groq import ChatGroq  
 import os
 import json
 
 def analyst_node(state):
     news = state["raw_news"]
-    supplier = state["supplier_info"] # Define supplier from state
+    supplier = state["supplier_info"] 
     
-    # 1. Memory Check: Agar ye news pehle dekh chuke hain toh skip karein
+    #Memory Check
     if is_duplicate_alert(news):
         return {
             "final_alert": "NO_RISK", 
             "logs": [f"Memory: News for {supplier['supplier_name']} matches a recent alert. Skipping to avoid spam."]
         }
     
-    # 2. Empty News Check: Agar news mili hi nahi
+    #Empty News ChecK
     if not news:
         return {
             "final_alert": "NO_RISK", 
@@ -46,18 +46,16 @@ def analyst_node(state):
     
     try:
         response = llm.invoke(prompt)
-        # Markdown backticks clean karna
         content = response.content.strip().replace("```json", "").replace("```", "")
         risks = json.loads(content)
         
-        # 3. Save to Memory: Analysis successful hone par hi yaad rakhein
         save_to_memory(news)
         
     except Exception as e:
-        # Fallback agar AI format bigad de
+        
         risks = [{"impact": f"Risk detected but analysis encountered an error. News context: {news[0][:100]}...", "severity": "Medium"}]
 
     return {
         "identified_risks": risks,
-        "logs": ["Analyst: Groq Llama 3.3 ne causal reasoning complete kar li hai aur memory update ho gayi hai."]
+        "logs": ["Analyst: Groq Llama 3.3 has completed causal reasoning and the memory has been updated."]
     }

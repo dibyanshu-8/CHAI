@@ -5,16 +5,16 @@ def alerter_node(state):
     """
     # Check if the Analyst marked this as No Risk
     if state.get("final_alert") == "NO_RISK":
-        return {"final_alert": "✅ SCAN COMPLETE: No immediate risks identified for this supplier."}
+        return {"final_alert": "SCAN COMPLETE: No immediate risks identified for this supplier."}
         
     risks = state.get("identified_risks", [])
     supplier = state["supplier_info"]
     
     # Building a professional, info-based report string
-    report = f"\n🚨 [URGENT RISK ALERT] {supplier['supplier_name']}\n"
+    report = f"\n [URGENT RISK ALERT] {supplier['supplier_name']}\n"
     report += "="*65 + "\n"
-    report += f"📍 LOCATION: {supplier['city']}, {supplier['country']}\n"
-    report += f"📦 PRODUCTS: {supplier['products']}\n"
+    report += f"LOCATION: {supplier['city']}, {supplier['country']}\n"
+    report += f"PRODUCTS: {supplier['products']}\n"
     report += "="*65 + "\n"
     
     if not risks:

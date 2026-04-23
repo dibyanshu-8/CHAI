@@ -3,23 +3,23 @@ from langchain_tavily import TavilySearchResults
 
 def researcher_node(state):
     """
-    Researcher node jo internet se real-time news fetch karta hai.
+    "Researcher node that fetches real-time news from the internet."
     """
     supplier = state["supplier_info"]
     
     # Specific query for supply chain intelligence
     query = f"latest supply chain disruptions, weather alerts, labor strikes, and logistics news for {supplier['city']} {supplier['country']}"
     
-    # Updated Tavily tool (Warning-free)
+    # Updated Tavily tool 
     search = TavilySearchResults(max_results=5)
     
     print(f"DEBUG: Searching live web data for {supplier['supplier_name']}...")
     
     try:
-        # Naye version mein .invoke() method use hota hai
+        
         search_results = search.invoke(query)
         
-        # News content extract karna
+        
         real_news = [res['content'] for res in search_results]
         
     except Exception as e:

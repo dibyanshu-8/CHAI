@@ -11,7 +11,7 @@ def lambda_handler(event, context):
     AWS Lambda handler for CHAI 2.0.
     Triggered by: EventBridge (Cron) or SQS.
     """
-    print("🚀 CHAI 2.0 Cloud Agent triggered...")
+    print("CHAI 2.0 Cloud Agent triggered...")
     
     # In production, we'd fetch this from S3 or a database.
     # For now, we use the local CSV bundled in the deployment package.
@@ -38,8 +38,6 @@ def lambda_handler(event, context):
         }
         
         # Execute the Agentic Graph
-        # Note: Lambda environment is stateless, so our local JSON memory 
-        # should eventually move to DynamoDB for true persistence.
         result = app.invoke(initial_state)
         
         # Log result to CloudWatch
