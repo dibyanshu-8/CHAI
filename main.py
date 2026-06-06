@@ -12,7 +12,7 @@ client = groq.Client(api_key=os.getenv("GROQ_API_KEY"))
 
 def run_autonomous_check():
     # Load Suppliers
-    suppliers = pd.read_csv("data/suppliers.csv")
+    suppliers = pd.read_csv("suppliers.csv")
     app = create_graph()
 
     print("CHAI 2.0 Autonomous Agent Starting...")

@@ -21,9 +21,12 @@ def researcher_node(state):
         try:
             # Initialize Tavily search with explicit API key
             search = TavilySearch(tavily_api_key=tavily_api_key, max_results=5)
-            search_results = search.invoke(query)
-            real_news = [res['content'] for res in search_results]
+            search_results = search.raw_results(query)
+            # Extract content from structured results
+            real_news = [res['content'] for res in search_results] if search_results else []
             print(f"DEBUG: Retrieved {len(real_news)} results from Tavily")
+            if not real_news:
+                real_news = [f"Automated monitoring active for {supplier['city']} region. No live alerts found."]
         except Exception as e:
             print(f"Search failed for {supplier['supplier_name']}: {e}")
             real_news = [f"Automated monitoring active for {supplier['city']} region. No live alerts found."]
