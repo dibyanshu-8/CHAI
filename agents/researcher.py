@@ -10,8 +10,8 @@ def researcher_node(state):
     # Specific query for supply chain intelligence
     query = f"latest supply chain disruptions, weather alerts, labor strikes, and logistics news for {supplier['city']} {supplier['country']}"
     
-    # Updated Tavily tool 
-    search = TavilySearchResults(max_results=5)
+    # Updated Tavily tool with API key from environment
+    search = TavilySearchResults(max_results=5, tavily_api_key=os.getenv("TAVILY_API_KEY"))
     
     print(f"DEBUG: Searching live web data for {supplier['supplier_name']}...")
     

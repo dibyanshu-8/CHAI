@@ -41,8 +41,8 @@ def load_llm_model():
 def load_data():
     """Loads supplier and global event data from CSV files."""
     try:
-        suppliers_df = pd.read_csv("suppliers.csv")
-        events_df = pd.read_csv("global_events.csv")
+        suppliers_df = pd.read_csv("D:\Project_repos\cognitive_hazard_ai\suppliers.csv")
+        events_df = pd.read_csv("D:\Project_repos\cognitive_hazard_ai\global_events.csv")
         return suppliers_df, events_df
     except FileNotFoundError as e:
         st.error(f"Error: {e}. Make sure the CSV files are in the same directory.")
