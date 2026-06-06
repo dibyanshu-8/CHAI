@@ -11,7 +11,7 @@ def researcher_node(state):
     query = f"latest supply chain disruptions, weather alerts, labor strikes, and logistics news for {supplier['city']} {supplier['country']}"
     
     # Updated Tavily tool 
-    search = TavilySearch(max_results=5)
+    search = TavilySearchResults(max_results=5)
     
     print(f"DEBUG: Searching live web data for {supplier['supplier_name']}...")
     
