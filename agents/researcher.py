@@ -1,9 +1,10 @@
 import os
 from langchain_tavily import TavilySearch
+import json
 
 def researcher_node(state):
     """
-    "Researcher node that fetches real-time news from the internet."
+    Researcher node that fetches real-time news from the internet.
     """
     supplier = state["supplier_info"]
     
@@ -20,10 +21,16 @@ def researcher_node(state):
     if tavily_api_key:
         try:
             # Initialize Tavily search with explicit API key
-            search = TavilySearch(tavily_api_key=tavily_api_key, max_results=5)
-            search_results = search.raw_results(query)
+            search = TavilySearch(tavily_api_key=tavily_api_key, max_results=5, include_raw_content=True)
+            # Use the api_wrapper to access raw_results method
+            raw_results = search.api_wrapper.raw_results(query)
+            
             # Extract content from structured results
-            real_news = [res['content'] for res in search_results] if search_results else []
+            if raw_results and isinstance(raw_results, dict) and 'results' in raw_results:
+                real_news = [res.get('content', res.get('title', str(res))) for res in raw_results['results']]
+            else:
+                real_news = []
+            
             print(f"DEBUG: Retrieved {len(real_news)} results from Tavily")
             if not real_news:
                 real_news = [f"Automated monitoring active for {supplier['city']} region. No live alerts found."]

@@ -37,6 +37,7 @@ def analyst_node(state):
     Task:
     1. Perform causal reasoning: If this news is true, exactly how does it impact production, labor, or logistics?
     2. Be specific about potential delays or quality issues.
+    3. Assess severity: HIGH if immediate production/delivery impact, MEDIUM if conditional risk, LOW if minimal impact.
     
     Return ONLY a valid JSON list of objects.
     Format: [
@@ -51,9 +52,14 @@ def analyst_node(state):
         
         save_to_memory(news)
         
+    except json.JSONDecodeError as e:
+        print(f"JSON parsing error for {supplier['supplier_name']}: {e}")
+        # Return a LOW severity if we can't parse - indicates no actionable intelligence
+        risks = [{"impact": f"News detected but unable to assess causal impact. Raw data: {news[0][:100] if news else 'None'}...", "severity": "Low"}]
     except Exception as e:
-        
-        risks = [{"impact": f"Risk detected but analysis encountered an error. News context: {news[0][:100]}...", "severity": "Medium"}]
+        print(f"Analysis error for {supplier['supplier_name']}: {e}")
+        # Return a LOW severity on generic errors - indicates no clear intelligence
+        risks = [{"impact": f"Analysis encountered an error. System will retry. Raw data: {news[0][:100] if news else 'None'}...", "severity": "Low"}]
 
     return {
         "identified_risks": risks,

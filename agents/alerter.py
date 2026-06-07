@@ -25,16 +25,16 @@ def alerter_node(state):
             impact = r.get('impact', 'N/A')
             severity = r.get('severity', 'N/A')
             
-            # Select an emoji based on severity level
+            # Select a symbol based on severity level (ASCII for Windows compatibility)
             sev_upper = severity.upper()
             if "HIGH" in sev_upper or "CRITICAL" in sev_upper:
-                emoji = "🔴"
+                symbol = "[HIGH]"
             elif "MEDIUM" in sev_upper:
-                emoji = "🟡"
+                symbol = "[MED]"
             else:
-                emoji = "🟢"
+                symbol = "[LOW]"
             
-            report += f"{i}. {emoji} SEVERITY: {sev_upper}\n"
+            report += f"{i}. {symbol} SEVERITY: {sev_upper}\n"
             report += f"   IMPACT: {impact}\n"
             report += "-"*40 + "\n"
             
