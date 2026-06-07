@@ -1,11 +1,12 @@
 import pandas as pd
 from graph import create_graph
 import os
-from dotenv import load_dotenv # type: ignore
-import groq
 
-# Load environment variables
-load_dotenv()
+import groq
+from dotenv import load_dotenv
+load_dotenv(override=True) # Override=True purani memory delete karke naya .env force-load karega
+
+
 
 # Configure Groq client globally
 client = groq.Client(api_key=os.getenv("GROQ_API_KEY"))
