@@ -123,7 +123,7 @@ Transition to a **fully autonomous agent architecture**
 ### Cloud-Ready Design
 - AWS Lambda-compatible handler
 - Event-driven execution via Amazon EventBridge
-- Scalable and cost-efficient architecture
+- Scalable and cost-efficient architecture .
 
 ---
 
