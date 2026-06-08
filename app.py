@@ -16,7 +16,7 @@ st.set_page_config(page_title="Cognitive Hazard AI (CHAI)", layout="wide")
 
 
 # App OFF = True , ON = False.
-APP_OFFLINE = False  
+APP_OFFLINE = True 
 
 if APP_OFFLINE:
     st.warning("**CHAI is temporarily offline.**")
