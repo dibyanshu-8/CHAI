@@ -4,7 +4,6 @@ import os
 from dotenv import load_dotenv
 
 # Load Environment Variables (Groq & Tavily API Keys)
-# Streamlit secrets will override these if deployed
 os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 os.environ["TAVILY_API_KEY"] = st.secrets["TAVILY_API_KEY"]
 
@@ -14,6 +13,14 @@ from core.v2_agentic.graph import create_graph
 
 # --- Page Config ---
 st.set_page_config(page_title="Cognitive Hazard AI (CHAI)", layout="wide")
+
+
+# App OFF = True , ON = False.
+APP_OFFLINE = False  
+
+if APP_OFFLINE:
+    st.warning("**CHAI is temporarily offline.**")
+    st.stop() 
 
 # --- Rate Limiter Initialization ---
 if 'scan_count' not in st.session_state:
