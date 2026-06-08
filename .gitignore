@@ -5,3 +5,5 @@ venv/
 .streamlit/
 outbox/
 data/suppliers.csv
+__pycache__/
+.streamlit/secrets.toml

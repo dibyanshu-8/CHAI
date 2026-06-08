@@ -1,9 +1,9 @@
 #langgraph implementation
 from langgraph.graph import StateGraph, END 
-from state import AgentState
-from agents.researcher import researcher_node
-from agents.analyst import analyst_node
-from agents.alerter import alerter_node
+from core.v2_agentic.state import AgentState
+from core.v2_agentic.agents.researcher import researcher_node
+from core.v2_agentic.agents.analyst import analyst_node
+from core.v2_agentic.agents.alerter import alerter_node
 
 def create_graph():
     workflow = StateGraph(AgentState)

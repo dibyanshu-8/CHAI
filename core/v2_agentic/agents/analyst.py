@@ -42,7 +42,7 @@ def analyst_node(state):
     """
     
     groq_api_key = os.getenv("GROQ_API_KEY")
-    severity = "MEDIUM" # Fallback default
+    severity = "HIGH" # Fallback default
     analysis_text = "Risk detected but analysis encountered an error."
     
     if groq_api_key and ChatGroq:
