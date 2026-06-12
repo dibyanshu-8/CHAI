@@ -16,11 +16,11 @@ st.set_page_config(page_title="Cognitive Hazard AI (CHAI)", layout="wide")
 
 
 # App OFF = True , ON = False.
-#APP_OFFLINE = True 
+APP_OFFLINE = True 
 
-#if APP_OFFLINE:
-#    st.warning("**CHAI is temporarily offline.**")
-#   st.stop() 
+if APP_OFFLINE:
+    st.warning("**CHAI is temporarily offline.**")
+    st.stop() 
 
 # --- Rate Limiter Initialization ---
 if 'scan_count' not in st.session_state:
