@@ -95,12 +95,15 @@ else:
                 try:
                     app_graph = create_graph()
                     
+                    
                     initial_state = {
                         "raw_news": [],
                         "supplier_info": supplier_info,
                         "identified_risks": [],
                         "final_alert": "",
-                        "logs": []
+                        "logs": [],
+                        "search_count": 0,               
+                        "is_data_sufficient": False      
                     }
                     
                     final_state = app_graph.invoke(initial_state)
@@ -111,6 +114,7 @@ else:
                     st.text(final_state.get("final_alert", "No report generated."))
                     
                     with st.expander("View Agent Internal Logs"):
+                        
                         for log in final_state.get("logs", []):
                             st.write(f"- {log}")
                             
