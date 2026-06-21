@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 
 try:
@@ -11,24 +12,27 @@ except ImportError:
 
 def researcher_node(state):
     """
-    Researcher node that fetches real-time news. If looping, it alters the query to find deeper context.
+    Researcher node with Temporal Grounding to bypass Search Authority Bias.
     """
     supplier = state["supplier_info"]
     current_attempt = state.get("search_count", 0) + 1 
-    
-    
     existing_news = state.get("raw_news", [])
     
+    # Get real-time date constraints 
+    current_year = datetime.now().year
+    current_month = datetime.now().strftime("%B")
     
+    # Dynamic Query Routing with Time-Awareness
     if current_attempt == 1:
-        query = f"latest supply chain disruptions, weather alerts, labor strikes, and logistics news for {supplier['city']} {supplier['country']}"
+        query = f"latest supply chain disruptions, labor strikes, logistics news {supplier['city']} {supplier['country']} {current_month} {current_year}"
     else:
-        query = f"in-depth investigative news, hidden logistics delays, port congestion {supplier['city']} {supplier['country']} recent"
+        query = f"recent active port congestion, hidden delays {supplier['city']} {supplier['country']} news {current_year}"
         
-    print(f"DEBUG: Searching live web data for {supplier['supplier_name']}... (Attempt {current_attempt})")
+    print(f"DEBUG: Searching live web data for {supplier['supplier_name']}... (Attempt {current_attempt} | Timeframe: {current_year})")
     
     real_news = []
     
+    # Check if tool component is loaded
     if TavilySearch is None:
         print("Error: Tavily Search components could not be imported.")
         return {
@@ -37,6 +41,7 @@ def researcher_node(state):
             "search_count": 1
         }
     
+    # Get Tavily API key from environment
     tavily_api_key = os.getenv("TAVILY_API_KEY")
     
     if tavily_api_key:
@@ -44,6 +49,7 @@ def researcher_node(state):
             search = TavilySearch(max_results=5)
             search_results = search.invoke(query)
             
+            # Safe parsing layer to handle both dictionaries and raw strings
             if isinstance(search_results, list):
                 for res in search_results:
                     if isinstance(res, dict) and 'content' in res:
@@ -62,11 +68,11 @@ def researcher_node(state):
     else:
         print(f"Warning: TAVILY_API_KEY not set. Skipping live web search.")
 
-    
+    # Combine old context with new context safely
     updated_news = existing_news + real_news
 
     return {
         "raw_news": updated_news,
-        "logs": [f"Researcher: Processed web query (Attempt {current_attempt}). Fetched {len(real_news)} new items."],
-        "search_count": 1 
+        "logs": [f"Researcher: Processed time-aware web query (Attempt {current_attempt}). Fetched {len(real_news)} new items."],
+        "search_count": 1  
     }
