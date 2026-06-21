@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 try:
     from langchain_groq import ChatGroq
@@ -7,13 +8,12 @@ except ImportError:
 
 def analyst_node(state):
     """
-    Analyst node jo Tavily ke live data par Groq use karke causal reasoning apply karta hai
-    aur decide karta hai ki data sufficient hai ya aur search ki zaroorat hai.
+    Analyst node equipped with a Digital Clock to reject outdated historical hallucinations.
     """
     raw_news = state.get("raw_news", [])
     supplier = state["supplier_info"]
     
-   
+
     if not raw_news:
         return {
             "identified_risks": [],
@@ -22,12 +22,17 @@ def analyst_node(state):
             "is_data_sufficient": True 
         }
     
-    # Combined context create karein
     news_context = "\n---\n".join(raw_news)
     
-    # NEW PROMPT: Data sufficiency check enforced
+    #Current date injection
+    current_date = datetime.now().strftime("%B %d, %Y")
+    current_year = datetime.now().year
+    
     prompt = f"""
     You are an expert supply chain risk analyst. Evaluate the following live intelligence signals.
+    
+    [SYSTEM CLOCK: TODAY IS {current_date}]
+    You MUST evaluate all risks relative to this exact date.
     
     SUPPLIER INFO:
     Name: {supplier['supplier_name']}
@@ -37,13 +42,15 @@ def analyst_node(state):
     LIVE INTELLIGENCE SIGNALS:
     {news_context}
     
-    CRITICAL INSTRUCTION: Analyze the signals. Are these signals highly relevant and sufficient to make a confident supply chain risk assessment? 
-    If the news is irrelevant or too vague, say NO. If it is relevant and clear, say YES.
+    CRITICAL TEMPORAL INSTRUCTIONS (DO NOT IGNORE):
+    1. Temporal Blindness Check: If the news describes historical events (e.g., 2021 COVID lockdowns, past strikes from previous years), IGNORE THEM.
+    2. If all signals are clearly outdated and do not actively disrupt operations in {current_year}, you MUST classify the risk as NO_RISK.
+    3. Are these signals RECENT and sufficient to make a confident supply chain risk assessment for {current_date}? If the news is outdated or irrelevant, say NO for DATA_SUFFICIENT.
     
-    You must respond EXACTLY in the following format. Do not include any extra introductory text.
+    You must respond EXACTLY in the following format so the parser can read it. Do not include any extra introductory text.
     DATA_SUFFICIENT: <YES or NO>
-    SEVERITY: <HIGH, MEDIUM, LOW, or NO_RISK>
-    ANALYSIS: <Write your reasoning here>
+    SEVERITY: <Choose only one: HIGH, MEDIUM, LOW, or NO_RISK>
+    ANALYSIS: <Write a concise causal reasoning explaining the impact. If rejecting old data, explicitly state "Data is outdated historical context.">
     """
     
     groq_api_key = os.getenv("GROQ_API_KEY")
@@ -57,7 +64,7 @@ def analyst_node(state):
             response = llm.invoke(prompt)
             response_content = response.content if hasattr(response, 'content') else str(response)
             
-            # Robust parsing for multi-line LLM outputs
+            # Robust multi-line parsing layer
             current_key = None
             analysis_lines = []
             
@@ -78,11 +85,14 @@ def analyst_node(state):
                     analysis_lines.append(line.split(":", 1)[1].strip())
                     current_key = "ANALYSIS"
                 elif current_key == "ANALYSIS" and line.strip():
-                    # Capture multi-line reasoning safely
                     analysis_lines.append(line.strip())
             
             if analysis_lines:
                 analysis_text = " ".join(analysis_lines)
+                
+            # Edge-case safety fallback
+            if not any(s in severity for s in ["HIGH", "MEDIUM", "LOW", "NO_RISK"]):
+                severity = "MEDIUM"
                 
         except Exception as e:
             print(f"Groq Inference or Parsing failed for {supplier['supplier_name']}: {e}")
@@ -91,10 +101,9 @@ def analyst_node(state):
         print("Warning: GROQ_API_KEY not configured or library missing.")
         analysis_text = f"System offline fallback. Raw content preview: {raw_news[0][:80]}..."
 
-    # State update package creation
     return {
         "identified_risks": [{"severity": severity, "impact": analysis_text}],
         "final_alert": f"SEVERITY: {severity}\nIMPACT: {analysis_text}",
-        "logs": [f"Analyst: Data Sufficient = {is_data_sufficient}. Causal reasoning complete."],
+        "logs": [f"Analyst (Time-Aware): Data Sufficient = {is_data_sufficient}. Checked against current date: {current_date}."],
         "is_data_sufficient": is_data_sufficient
     }
