@@ -13,7 +13,7 @@ def analyst_node(state):
     raw_news = state.get("raw_news", [])
     supplier = state["supplier_info"]
     
-    # Agar koi news nahi mili, toh loop break karo
+    
     if not raw_news:
         return {
             "identified_risks": [],
@@ -24,7 +24,7 @@ def analyst_node(state):
     
     news_context = "\n---\n".join(raw_news)
     
-    # --- TEMPORAL GROUNDING: Current date injection ---
+    #current data ingestion
     current_date = datetime.now().strftime("%B %d, %Y")
     current_year = datetime.now().year
     
@@ -54,7 +54,7 @@ def analyst_node(state):
     """
     
     groq_api_key = os.getenv("GROQ_API_KEY")
-    severity = "MEDIUM" # Fallback default
+    severity = "MEDIUM" 
     analysis_text = "Risk detected but analysis encountered an error."
     is_data_sufficient = True 
     
@@ -64,7 +64,7 @@ def analyst_node(state):
             response = llm.invoke(prompt)
             response_content = response.content if hasattr(response, 'content') else str(response)
             
-            # Robust multi-line parsing layer
+            
             current_key = None
             analysis_lines = []
             
@@ -85,13 +85,13 @@ def analyst_node(state):
                     analysis_lines.append(line.split(":", 1)[1].strip())
                     current_key = "ANALYSIS"
                 elif current_key == "ANALYSIS" and line.strip():
-                    # Capture multi-line reasoning safely
+                    
                     analysis_lines.append(line.strip())
             
             if analysis_lines:
                 analysis_text = " ".join(analysis_lines)
                 
-            # Edge-case safety fallback
+            
             if not any(s in severity for s in ["HIGH", "MEDIUM", "LOW", "NO_RISK"]):
                 severity = "MEDIUM"
                 
