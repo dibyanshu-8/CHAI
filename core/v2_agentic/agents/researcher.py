@@ -1,6 +1,6 @@
 import os
 
-# Robust fallback import strategy to handle package version changes
+
 try:
     from langchain_tavily import TavilySearchResults as TavilySearch
 except ImportError:
@@ -11,35 +11,39 @@ except ImportError:
 
 def researcher_node(state):
     """
-    Researcher node that fetches real-time news from the internet.
+    Researcher node that fetches real-time news. If looping, it alters the query to find deeper context.
     """
     supplier = state["supplier_info"]
+    current_attempt = state.get("search_count", 0) + 1 
     
-    # Specific query for supply chain intelligence
-    query = f"latest supply chain disruptions, weather alerts, labor strikes, and logistics news for {supplier['city']} {supplier['country']}"
     
-    print(f"DEBUG: Searching live web data for {supplier['supplier_name']}...")
+    existing_news = state.get("raw_news", [])
+    
+    
+    if current_attempt == 1:
+        query = f"latest supply chain disruptions, weather alerts, labor strikes, and logistics news for {supplier['city']} {supplier['country']}"
+    else:
+        query = f"in-depth investigative news, hidden logistics delays, port congestion {supplier['city']} {supplier['country']} recent"
+        
+    print(f"DEBUG: Searching live web data for {supplier['supplier_name']}... (Attempt {current_attempt})")
     
     real_news = []
     
-    # Check if tool component is loaded
     if TavilySearch is None:
         print("Error: Tavily Search components could not be imported.")
         return {
-            "raw_news": [f"Automated monitoring active for {supplier['city']} region. Service offline."],
-            "logs": ["Researcher: Import error encountered."]
+            "raw_news": existing_news + [f"Automated monitoring active for {supplier['city']} region. Service offline."],
+            "logs": ["Researcher: Import error encountered."],
+            "search_count": 1
         }
     
-    # Get Tavily API key from environment
     tavily_api_key = os.getenv("TAVILY_API_KEY")
     
     if tavily_api_key:
         try:
-            # Initialize search component safely
             search = TavilySearch(max_results=5)
             search_results = search.invoke(query)
             
-            # Safe parsing layer to handle both dictionaries and raw strings
             if isinstance(search_results, list):
                 for res in search_results:
                     if isinstance(res, dict) and 'content' in res:
@@ -55,15 +59,14 @@ def researcher_node(state):
             
         except Exception as e:
             print(f"Search execution failed for {supplier['supplier_name']}: {e}")
-            # Fallback configuration to prevent breaking the downstream nodes
-            real_news = []
     else:
-        print(f"Warning: TAVILY_API_KEY not set. Skipping live web search for {supplier['supplier_name']}.")
-        real_news = []
+        print(f"Warning: TAVILY_API_KEY not set. Skipping live web search.")
 
-    # AGAR koi real news nahi mili toh system aage crash na kare
-    # analyst_node empty check handle kar lega aur NO_RISK return karega
+    
+    updated_news = existing_news + real_news
+
     return {
-        "raw_news": real_news,
-        "logs": [f"Researcher: Processed live web queries for {supplier['supplier_name']}."]
+        "raw_news": updated_news,
+        "logs": [f"Researcher: Processed web query (Attempt {current_attempt}). Fetched {len(real_news)} new items."],
+        "search_count": 1 
     }
